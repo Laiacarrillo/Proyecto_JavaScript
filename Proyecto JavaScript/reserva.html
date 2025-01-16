@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tarjetas de Hotel</title>
+    <title>Reserva de Hotel</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100">
@@ -28,130 +28,52 @@
         </div>
     </nav>
 
-    <div class="container mx-auto py-10 px-4 grid gap-8 md:grid-cols-2">
-        <div class="flex flex-col md:flex-row bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 max-w-lg md:max-w-2xl">
-            <div class="relative w-full md:w-72 h-48 md:h-64">
-                <img src="imagenes/cama queen.webp" alt="Sonesta Hotel" class="w-full h-full object-cover">
-            </div>
-            <div class="flex-1 p-4">
-                <div class="flex flex-col md:justify-between">
-                    <div class="space-y-2">
-                        <h2 class="text-2xl font-bold text-blue-600">Suite Junior</h2>
-                        <p class="text-gray-600">Dispone de 1 cama doble.</p>
-                        <div class="flex items-center gap-2 text-gray-600">
-                            <span>1 cama Queen size</span>
+    <div id="habitaciones-container" class="container mx-auto py-10 px-4 grid gap-8 md:grid-cols-2"></div>
+
+    <div id="reservationForm" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center">
+        <div class="p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div class="text-center">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">Reserva tu estancia</h3>
+                <div class="mt-2 px-7 py-3">
+                    <form id="bookingForm" class="space-y-4">
+                        <div>
+                            <label for="checkIn" class="block text-sm font-medium text-gray-700">Fecha de Check-in</label>
+                            <input type="date" id="checkIn" name="checkIn" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                         </div>
-                        <p class="text-gray-600 mt-2">Esta suite cuenta con balcón, zona de estar con sofá cama, WiFi gratuita y baño privado con ducha.</p>
-                    </div>
-                    <div class="flex flex-col items-end gap-2">
-                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded transition-colors">Reservar Ya</button>
-                    </div>
+                        <div>
+                            <label for="checkOut" class="block text-sm font-medium text-gray-700">Fecha de Check-out</label>
+                            <input type="date" id="checkOut" name="checkOut" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label for="guests" class="block text-sm font-medium text-gray-700">Número de huéspedes</label>
+                            <input type="number" id="guests" name="guests" min="1" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        <div class="items-center px-4 py-3">
+                            <button type="submit" class="px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300">Buscar disponibilidad</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="flex flex-col md:flex-row bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 max-w-lg md:max-w-2xl">
-            <div class="relative w-full md:w-72 h-48 md:h-64">
-                <img src="imagenes/camas dobles.webp" alt="Habitación Superior" class="w-full h-full object-cover">
+    <div id="termsModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden flex items-center justify-center">
+        <div class="p-5 border w-96 shadow-lg rounded-md bg-white">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">Términos y Condiciones</h3>
+            <div class="mt-2">
+                <p class="text-sm text-gray-600">Para realizar reservas o cancelaciones, es obligatorio registrarse en el sitio web <br>
+                    Para realizar reservas o cancelaciones, es obligatorio registrarse en el sitio web. <br>
+                    El check-in se realiza a partir de las 14:00 del día de llegada. <br>
+                    Si la reserva no se hace efectiva antes de las 16:00 del día de llegada, la habitación será liberada para otros huéspedes. <br>
+                    El proceso de cancelación debe realizarse dentro de los plazos establecidos en la política de cancelación del hotel. <br>
+                    Los precios mostrados incluyen impuestos y cualquier otro cargo aplicable, salvo que se indique lo contrario. <br>
+                    Los datos personales recopilados durante el registro y el uso del sitio web serán manejados de acuerdo con la política de privacidad del hotel. <br>
+                    El hotel no se hace responsable por problemas técnicos o fallas del sitio web que puedan afectar la capacidad de los usuarios para realizar reservas o cancelar las mismas. <br>
+                    
+                </p>
             </div>
-            <div class="flex-1 p-4">
-                <div class="flex flex-col md:justify-between">
-                    <div class="space-y-2">
-                        <h2 class="text-2xl font-bold text-blue-600">Habitación Superior</h2>
-                        <p class="text-gray-600">Dispone de 2 camas dobles.</p>
-                        <div class="flex items-center gap-2 text-gray-600">
-                            <span>2 camas Queen size</span>
-                        </div>
-                        <p class="text-gray-600 mt-2">Dispone de balcón con hamaca, aire acondicionado, minibar y baño privado con ducha.</p>
-                    </div>
-                    <div class="flex flex-col items-end gap-2">
-                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded transition-colors">Reservar Ya</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="flex flex-col md:flex-row bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 max-w-lg md:max-w-2xl">
-            <div class="relative w-full md:w-72 h-48 md:h-64">
-                <img src="imagenes/familiar.jpg" alt="Habitacion Familiar" class="w-full h-full object-cover">
-            </div>
-            <div class="flex-1 p-4">
-                <div class="flex flex-col md:justify-between">
-                    <div class="space-y-2">
-                        <h2 class="text-2xl font-bold text-blue-600">Habitacion Familiar</h2>
-                        <p class="text-gray-600">Dispone de 1 cama doble y 1 litera.</p>
-                        <div class="flex items-center gap-2 text-gray-600">
-                            <span>1 cama Queen size y 1 litera</span>
-                        </div>
-                        <p class="text-gray-600 mt-2">Esta habitación familiar dispone de aire acondicionado, TV de pantalla plana con canales, baño privado y balcón.</p>
-                    </div>
-                    <div class="flex flex-col items-end gap-2">
-                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded transition-colors">Reservar Ya</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="flex flex-col md:flex-row bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 max-w-lg md:max-w-2xl">
-            <div class="relative w-full md:w-72 h-48 md:h-64">
-                <img src="imagenes/matrimonial.jpg" alt="Habitación Doble Superior" class="w-full h-full object-cover">
-            </div>
-            <div class="flex-1 p-4">
-                <div class="flex flex-col md:justify-between">
-                    <div class="space-y-2">
-                        <h2 class="text-2xl font-bold text-blue-600">Habitación Doble Superior</h2>
-                        <p class="text-gray-600">Dispone de 1 cama matrimonial.</p>
-                        <div class="flex items-center gap-2 text-gray-600">
-                            <span>1 cama matrimonial</span>
-                        </div>
-                        <p class="text-gray-600 mt-2">Esta habitación doble cuenta con baño privado. La habitación doble es amplia y dispone de aire acondicionado y minibar.</p>
-                    </div>
-                    <div class="flex flex-col items-end gap-2">
-                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded transition-colors">Reservar Ya</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="flex flex-col md:flex-row bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 max-w-lg md:max-w-2xl">
-            <div class="relative w-full md:w-72 h-48 md:h-64">
-                <img src="imagenes/king size.webp" alt="Suite estudio" class="w-full h-full object-cover">
-            </div>
-            <div class="flex-1 p-4">
-                <div class="flex flex-col md:justify-between">
-                    <div class="space-y-2">
-                        <h2 class="text-2xl font-bold text-blue-600">Suite estudio</h2>
-                        <p class="text-gray-600">Dispone de 2 camas.</p>
-                        <div class="flex items-center gap-2 text-gray-600">
-                            <span>2 camas King size</span>
-                        </div>
-                        <p class="text-gray-600 mt-2">La suite tiene aire acondicionado, 1 dormitorio y baño con ducha. Dispone de minibar y tetera/cafetera.</p>
-                    </div>
-                    <div class="flex flex-col items-end gap-2">
-                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded transition-colors">Reservar Ya</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="flex flex-col md:flex-row bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 max-w-lg md:max-w-2xl">
-            <div class="relative w-full md:w-72 h-48 md:h-64">
-                <img src="imagenes/familiar sencilla.jpg" alt="Habitación Individual" class="w-full h-full object-cover">
-            </div>
-            <div class="flex-1 p-4">
-                <div class="flex flex-col md:justify-between">
-                    <div class="space-y-2">
-                        <h2 class="text-2xl font-bold text-blue-600">Habitación Familiar Sencilla</h2>
-                        <p class="text-gray-600">Dispone de 3 camas</p>
-                        <div class="flex items-center gap-2 text-gray-600">
-                            <span>2 camas individual y 1 Queen Size.</span>
-                        </div>
-                        <p class="text-gray-600 mt-2">Esta habitación familiar dispone de aire acondicionado,baño privado y balcón con vistas a la ciudad. </p>
-                    </div>
-                    <div class="flex flex-col items-end gap-2">
-                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded transition-colors">Reservar Ya</button>
-                    </div>
-                </div>
+            <div class="mt-4 flex justify-center">
+                <button onclick="acceptTerms()" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">Aceptar</button>
             </div>
         </div>
     </div>
@@ -161,6 +83,76 @@
             const menu = document.getElementById('menu');
             menu.classList.toggle('hidden');
         }
+
+        async function cargarHabitaciones(numGuests) {
+            try {
+                const response = await fetch('http://localhost:3000/habitacion');
+                const habitaciones = await response.json();
+                const container = document.getElementById('habitaciones-container');
+                container.innerHTML = ''; 
+                const habitacionesFiltradas = habitaciones.filter(habitacion => habitacion.capacidad >= numGuests);
+
+                habitacionesFiltradas.forEach(habitacion => {
+                    const tarjeta = `
+                        <div class="flex flex-col md:flex-row bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 max-w-lg md:max-w-2xl">
+                            <div class="relative w-full md:w-72 h-48 md:h-64">
+                                <img src="${habitacion.imagen}" alt="${habitacion.nombre}" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex-1 p-4">
+                                <div class="flex flex-col md:justify-between">
+                                    <div class="space-y-2">
+                                        <h2 class="text-2xl font-bold text-blue-600">${habitacion.nombre}</h2>
+                                        <p class="text-gray-600">${habitacion.descripcion}</p>
+                                        <div class="flex items-center gap-2 text-gray-600">
+                                            <span>Capacidad: ${habitacion.capacidad} personas</span>
+                                        </div>
+                                        <p class="text-gray-600 mt-2">
+                                            ${habitacion.internet ? 'WiFi gratuita, ' : ''}
+                                            ${habitacion.aireAcondicionado ? 'Aire acondicionado, ' : ''}
+                                            ${habitacion.minibar ? 'Minibar, ' : ''}
+                                            ${habitacion.jacuzzi ? 'Jacuzzi, ' : ''}
+                                            Baños: ${habitacion.baños}
+                                        </p>
+                                    </div>
+                                    <div class="flex flex-col items-end gap-2 mt-4">
+                                        <p class="text-lg font-bold text-blue-600">Precio: $${habitacion.precio}/noche</p>
+                                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded transition-colors" onclick="showTerms()">Reservar Ya</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += tarjeta;
+                });
+
+                if (habitacionesFiltradas.length === 0) {
+                    container.innerHTML = '<p class="text-center text-xl text-gray-600">No hay habitaciones disponibles para la cantidad de huéspedes seleccionada.</p>';
+                }
+            } catch (error) {
+                console.error('Error al cargar las habitaciones:', error);
+            }
+        }
+
+        function showTerms() {
+            document.getElementById('termsModal').classList.remove('hidden');
+        }
+
+        function acceptTerms() {
+            document.getElementById('termsModal').classList.add('hidden');
+            alert('Has aceptado los términos y condiciones.');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('bookingForm');
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const checkIn = document.getElementById('checkIn').value;
+                const checkOut = document.getElementById('checkOut').value;
+                const guests = parseInt(document.getElementById('guests').value);
+                document.getElementById('reservationForm').style.display = 'none';
+                cargarHabitaciones(guests);
+            });
+        });
     </script>
 </body>
 </html>
