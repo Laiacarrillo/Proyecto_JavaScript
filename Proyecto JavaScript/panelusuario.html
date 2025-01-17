@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Usuario - Hotel el Rincón del Carmen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        main {
+            flex: 1;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+    <nav class="bg-gray-800 py-6 relative shadow-md">
+        <div class="container mx-auto flex items-center px-8 xl:px-0">
+            <div class="flex flex-grow pl-8">
+                <h1 class="text-white text-2xl font-bold -ml-2">Hotel el Rincón del Carmen</h1>
+            </div>
+            <div class="flex lg:hidden">
+                <img src="imagenes/menu.jpg" onclick="openMenu()" alt="Menú" class="w-8 h-8 object-contain cursor-pointer">
+            </div>
+            <div id="menu" class="z-10 lg:flex hidden flex-grow justify-between items-center absolute lg:relative lg:top-0 top-20 left-0
+            bg-gray-800 w-full lg:w-auto items-center py-14 lg:py-0 px-8 sm:px-24 lg:px-0">
+                <div class="flex flex-col lg:flex-row mb-8 lg:mb-0">
+                    <a href="index.html" class="text-white lg:mr-7 mb-8 lg:mb-0 hover:text-gray-300 transition duration-300">Inicio</a>
+                    <a href="contacto.html" class="text-white lg:mr-7 mb-8 lg:mb-0 hover:text-gray-300 transition duration-300">Contacto</a>
+                </div>
+                <div id="botones" class="flex flex-row justify-center lg:justify-end space-x-4 pr-8">
+                    <a href="InicioSesion.html" class="text-white border border-white py-2 px-4 lg:py-1.5 lg:px-3 rounded-md hover:bg-white 
+                    hover:text-gray-800 transition duration-300 ease-in-out">Inicio sesión</a>
+                    <a href="registrate.html" class="text-white bg-blue-500 border border-blue-500 py-2 px-4 lg:py-1.5 lg:px-3 rounded-md hover:bg-blue-600 
+                    hover:border-blue-600 transition duration-300 ease-in-out">Regístrate</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow">
+        <div class="mt-12 text-center px-4">
+            <h1 class="text-5xl font-bold text-gray-800 mb-4">Bienvenido a tu Panel de Usuario</h1>
+            <h2 class="text-2xl text-gray-600 max-w-2xl mx-auto">Aquí puedes ver y gestionar tus reservas.</h2>
+        </div>
+
+        <section class="mt-16 px-4">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Tus Reservas</h2>
+            <div id="reservas-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-12 mt-16">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="flex flex-col items-center md:items-start space-y-2">
+                    <p class="text-2xl mb-2">📞</p>
+                    <p class="font-semibold text-lg">Teléfono</p>
+                    <p>+57 3105708389</p>
+                </div>
+                <div class="flex flex-col items-center md:items-start space-y-2">
+                    <p class="text-2xl mb-2">📧</p>
+                    <p class="font-semibold text-lg">Correo</p>
+                    <p>contacto@hotelrincon.com</p>
+                </div>
+                <div class="flex flex-col items-center md:items-start space-y-2">
+                    <p class="text-2xl mb-2">📍</p>
+                    <p class="font-semibold text-lg">Ubicación</p>
+                    <p>Anillo Vial Sector Cielo Mar</p>
+                </div>
+            </div>
+            <div class="mt-8 text-center">
+                <p>&copy; 2023 Hotel el Rincón del Carmen. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        botones = document.getElementById("botones")
+
+        user = JSON.parse(localStorage.getItem('user'))
+
+        if (user) {
+            botones.innerHTML = `
+                    <a class="text-white border border-white py-2 px-4 lg:py-1.5 lg:px-3 rounded-md hover:bg-white 
+                    hover:text-gray-800 transition duration-300 ease-in-out" onclick="CerrarSesion()">Cerrar Sesión</a>
+                    <a href="panelusuario.html" class="text-white bg-blue-500 border border-blue-500 py-2 px-4 lg:py-1.5 lg:px-3 rounded-md hover:bg-blue-600 
+                    hover:border-blue-600 transition duration-300 ease-in-out">Panel de Usuario</a>
+            `
+        }
+
+        function CerrarSesion() {
+            localStorage.removeItem('user');
+            location.reload();
+        }
+
+        function openMenu() {
+            let menu = document.getElementById('menu');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                menu.classList.add('fade-in');
+            } else {
+                menu.classList.add('hidden');
+                menu.classList.remove('fade-in');
+            }
+        }
+
+        async function cargarReservas() {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (!user) {
+                alert('Por favor, inicie sesión para ver sus reservas.');
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:3000/usuarios/${user.id}`);
+                const usuario = await response.json();
+                const reservas = usuario.reservas || [];
+                const container = document.getElementById('reservas-container');
+                container.innerHTML = '';
+
+                for (const reservaId of reservas) {
+                    const habitacionResponse = await fetch(`http://localhost:3000/habitacion/${reservaId}`);
+                    const habitacion = await habitacionResponse.json();
+
+                    const tarjeta = `
+                        <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition duration-300">
+                            <h3 class="text-xl font-semibold mb-2">${habitacion.nombre}</h3>
+                            <p class="text-gray-600 mb-4">${habitacion.descripcion}</p>
+                            <p class="text-gray-600 mb-4">Capacidad: ${habitacion.capacidad} personas</p>
+                            <p class="text-gray-600 mb-4">Precio: $${habitacion.precio}/noche</p>
+                            <button class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded transition-colors" onclick="cancelarReserva(${habitacion.id})">Cancelar Reserva</button>
+                        </div>
+                    `;
+                    container.innerHTML += tarjeta;
+                }
+
+                if (reservas.length === 0) {
+                    container.innerHTML = '<p class="text-center text-xl text-gray-600">No tienes reservas actualmente.</p>';
+                }
+            } catch (error) {
+                console.error('Error al cargar las reservas:', error);
+            }
+        }
+
+        async function cancelarReserva(roomId) {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (!user) {
+                alert('Por favor, inicie sesión para cancelar una reserva.');
+                return;
+            }
+
+            try {
+                const roomResponse = await fetch(`http://localhost:3000/habitacion/${roomId}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ estado: 'disponible' }),
+                });
+
+                if (!roomResponse.ok) {
+                    throw new Error('Failed to update room status');
+                }
+
+                const updatedReservas = user.reservas.filter(id => id !== roomId);
+                const userResponse = await fetch(`http://localhost:3000/usuarios/${user.id}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ reservas: updatedReservas }),
+                });
+
+                if (!userResponse.ok) {
+                    throw new Error('Failed to update user reservations');
+                }
+
+                user.reservas = updatedReservas;
+                localStorage.setItem('user', JSON.stringify(user));
+
+                alert('Reserva cancelada.');
+                cargarReservas();
+            } catch (error) {
+                console.error('Error canceling reservation:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', cargarReservas);
+    </script>
+</body>
+
+</html>

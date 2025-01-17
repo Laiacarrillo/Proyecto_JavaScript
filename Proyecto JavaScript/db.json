@@ -300,7 +300,8 @@
     {
       "email": "lay@gmail.com",
       "password": "laia",
-      "id": 4
+      "id": 4,
+      "reservas": []
     }
   ]
 }
