@@ -56,6 +56,7 @@
             </div>
         </div>
     </div>
+   
 
     <div id="termsModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden flex items-center justify-center">
         <div class="p-5 border w-96 shadow-lg rounded-md bg-white">
@@ -69,7 +70,7 @@
                     Los precios mostrados incluyen impuestos y cualquier otro cargo aplicable, salvo que se indique lo contrario. <br>
                     Los datos personales recopilados durante el registro y el uso del sitio web serán manejados de acuerdo con la política de privacidad del hotel. <br>
                     El hotel no se hace responsable por problemas técnicos o fallas del sitio web que puedan afectar la capacidad de los usuarios para realizar reservas o cancelar las mismas. <br>
-                    
+
                 </p>
             </div>
             <div class="mt-4 flex justify-center">
@@ -79,6 +80,9 @@
     </div>
 
     <script>
+
+    user = JSON.parse(localStorage.getItem('user'))
+
         function openMenu() {
             const menu = document.getElementById('menu');
             menu.classList.toggle('hidden');
@@ -92,7 +96,8 @@
                 container.innerHTML = ''; 
                 const habitacionesFiltradas = habitaciones.filter(habitacion => habitacion.capacidad >= numGuests);
 
-                habitacionesFiltradas.forEach(habitacion => {
+                if (user) {
+                    habitacionesFiltradas.forEach(habitacion => {
                     const tarjeta = `
                         <div class="flex flex-col md:flex-row bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 max-w-lg md:max-w-2xl">
                             <div class="relative w-full md:w-72 h-48 md:h-64">
@@ -128,6 +133,46 @@
                 if (habitacionesFiltradas.length === 0) {
                     container.innerHTML = '<p class="text-center text-xl text-gray-600">No hay habitaciones disponibles para la cantidad de huéspedes seleccionada.</p>';
                 }
+                } else {
+                    habitacionesFiltradas.forEach(habitacion => {
+                    const tarjeta = `
+                        <div class="flex flex-col md:flex-row bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 max-w-lg md:max-w-2xl">
+                            <div class="relative w-full md:w-72 h-48 md:h-64">
+                                <img src="${habitacion.imagen}" alt="${habitacion.nombre}" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex-1 p-4">
+                                <div class="flex flex-col md:justify-between">
+                                    <div class="space-y-2">
+                                        <h2 class="text-2xl font-bold text-blue-600">${habitacion.nombre}</h2>
+                                        <p class="text-gray-600">${habitacion.descripcion}</p>
+                                        <div class="flex items-center gap-2 text-gray-600">
+                                            <span>Capacidad: ${habitacion.capacidad} personas</span>
+                                        </div>
+                                        <p class="text-gray-600 mt-2">
+                                            ${habitacion.internet ? 'WiFi gratuita, ' : ''}
+                                            ${habitacion.aireAcondicionado ? 'Aire acondicionado, ' : ''}
+                                            ${habitacion.minibar ? 'Minibar, ' : ''}
+                                            ${habitacion.jacuzzi ? 'Jacuzzi, ' : ''}
+                                            Baños: ${habitacion.baños}
+                                        </p>
+                                    </div>
+                                    <div class="flex flex-col items-end gap-2 mt-4">
+                                        <p class="text-lg font-bold text-blue-600">Precio: $${habitacion.precio}/noche</p>
+                                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded transition-colors" onclick="location.href='InicioSesion.html'">Iniciar Sesión</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += tarjeta;
+                });
+
+                if (habitacionesFiltradas.length === 0) {
+                    container.innerHTML = '<p class="text-center text-xl text-gray-600">No hay habitaciones disponibles para la cantidad de huéspedes seleccionada.</p>';
+                }
+                }
+
+                
             } catch (error) {
                 console.error('Error al cargar las habitaciones:', error);
             }
