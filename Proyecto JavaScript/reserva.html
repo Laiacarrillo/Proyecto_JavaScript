@@ -6,7 +6,7 @@
     <title>Reserva de Hotel</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-300">
     <nav class="bg-gray-800 py-6 relative shadow-md">
         <div class="container mx-auto flex items-center px-8 xl:px-0">
             <div class="flex flex-grow pl-8">
@@ -214,7 +214,6 @@
         }
 
         try {
-            // Update room status
             const roomResponse = await fetch(`http://localhost:3000/habitacion/${roomId}`, {
                 method: 'PATCH',
                 headers: {
@@ -227,7 +226,6 @@
                 throw new Error('Failed to update room status');
             }
 
-            // Update user reservations
             const userResponse = await fetch(`http://localhost:3000/usuarios/${user.id}`, {
                 method: 'PATCH',
                 headers: {
@@ -242,12 +240,11 @@
                 throw new Error('Failed to update user reservations');
             }
 
-            // Update local storage
             user.reservas = [...(user.reservas || []), roomId];
             localStorage.setItem('user', JSON.stringify(user));
 
             alert('Reserva confirmada. ¡Gracias por elegir nuestro hotel!');
-            cargarHabitaciones(document.getElementById('guests').value); // Refresh the room list
+            cargarHabitaciones(document.getElementById('guests').value);
         } catch (error) {
             console.error('Error making reservation:', error);
         }

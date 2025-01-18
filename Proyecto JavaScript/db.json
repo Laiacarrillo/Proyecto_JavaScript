@@ -12,7 +12,7 @@
       "baños": "1",
       "precio": 700,
       "imagen": "http://127.0.0.1:5500/Proyecto%20JavaScript/imagenes/cama%20queen.webp",
-      "estado": "disponible"
+      "estado": "no-disponible"
     },
     {
       "id": 2,
@@ -301,7 +301,9 @@
       "email": "lay@gmail.com",
       "password": "laia",
       "id": 4,
-      "reservas": []
+      "reservas": [
+        1
+      ]
     }
   ]
 }
